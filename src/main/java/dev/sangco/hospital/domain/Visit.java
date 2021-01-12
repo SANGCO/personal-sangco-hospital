@@ -1,6 +1,7 @@
 package dev.sangco.hospital.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -29,5 +30,13 @@ public class Visit extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private State state;
+
+    @Builder
+    public Visit(Hospital hospital, Patient patient, LocalDateTime dateOfReceipt, State state) {
+        this.hospital = hospital;
+        this.patient = patient;
+        this.dateOfReceipt = dateOfReceipt;
+        this.state = state;
+    }
 
 }

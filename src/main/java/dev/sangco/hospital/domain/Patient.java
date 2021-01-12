@@ -1,6 +1,7 @@
 package dev.sangco.hospital.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -33,5 +34,15 @@ public class Patient extends BaseTimeEntity {
 
     @Column(length = 20, nullable = false)
     private String phoneNumber;
+
+    @Builder
+    public Patient(Hospital hospital, String name, String number, Gender gender, String birthdate, String phoneNumber) {
+        this.hospital = hospital;
+        this.name = name;
+        this.number = number;
+        this.gender = gender;
+        this.birthdate = birthdate;
+        this.phoneNumber = phoneNumber;
+    }
 
 }
