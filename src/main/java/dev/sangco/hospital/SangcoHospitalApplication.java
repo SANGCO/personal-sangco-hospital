@@ -28,7 +28,7 @@ public class SangcoHospitalApplication {
 		return (args -> {
 			Hospital hospital = Hospital.builder()
 					.name("테스트 병원")
-					.number("010-0000-0000")
+					.number("0000000000")
 					.director("김아무개").build();
 			Hospital savedHospital = hospitalRepository.save(hospital);
 
@@ -36,7 +36,7 @@ public class SangcoHospitalApplication {
 				Patient patient = Patient.builder()
 						.hospital(savedHospital)
 						.name("테스트환자" + i)
-						.number("00000000")
+						.number("00000000" + i)
 						.gender(Gender.MALE)
 						.birthdate("1988-01-01")
 						.phoneNumber("010-0000-0000").build();

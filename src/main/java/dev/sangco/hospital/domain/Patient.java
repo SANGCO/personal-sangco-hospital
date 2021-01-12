@@ -31,7 +31,7 @@ public class Patient extends BaseTimeEntity {
     @Column(length = 45, nullable = false)
     private String name;
 
-    @Column(length = 13, nullable = false)
+    @Column(length = 13, unique = true, nullable = false)
     private String number;
 
     @Enumerated(EnumType.STRING)

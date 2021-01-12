@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class VisitRepositoryTest {
 
     @Autowired
-    VisitRepository visitRepository;
+    private VisitRepository visitRepository;
 
     @Test
     public void test() {

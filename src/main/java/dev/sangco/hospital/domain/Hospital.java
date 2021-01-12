@@ -19,7 +19,7 @@ public class Hospital extends BaseTimeEntity {
     @Column(length = 45, nullable = false)
     private String name;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, unique = true, nullable = false)
     private String number;
 
     @Column(length = 10, nullable = false)
