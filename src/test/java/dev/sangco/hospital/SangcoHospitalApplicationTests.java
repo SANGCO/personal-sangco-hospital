@@ -1,4 +1,4 @@
-package dev.sangco.sangcohospital;
+package dev.sangco.hospital;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
