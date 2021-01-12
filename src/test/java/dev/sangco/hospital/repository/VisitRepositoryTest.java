@@ -40,7 +40,7 @@ class VisitRepositoryTest {
         Visit visit = Visit.builder()
                 .hospital(hospital)
                 .patient(patient)
-                .dateOfReceipt(LocalDateTime.now())
+                .schedule(LocalDateTime.now())
                 .state(State.END).build();
 
         Visit savedVisit = visitRepository.save(visit);

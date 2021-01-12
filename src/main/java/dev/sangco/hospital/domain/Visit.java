@@ -26,16 +26,16 @@ public class Visit extends BaseTimeEntity {
     private Patient patient;
 
     @Column(nullable = false)
-    private LocalDateTime dateOfReceipt;
+    private LocalDateTime schedule;
 
     @Enumerated(EnumType.STRING)
     private State state;
 
     @Builder
-    public Visit(Hospital hospital, Patient patient, LocalDateTime dateOfReceipt, State state) {
+    public Visit(Hospital hospital, Patient patient, LocalDateTime schedule, State state) {
         this.hospital = hospital;
         this.patient = patient;
-        this.dateOfReceipt = dateOfReceipt;
+        this.schedule = schedule;
         this.state = state;
     }
 
