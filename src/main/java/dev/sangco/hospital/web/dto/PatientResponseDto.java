@@ -2,11 +2,10 @@ package dev.sangco.hospital.web.dto;
 
 import dev.sangco.hospital.domain.Patient;
 import dev.sangco.hospital.domain.Visit;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -19,6 +18,7 @@ public class PatientResponseDto {
     private String gender;
     private String birthdate;
     private String phoneNumber;
+    private List<VisitDto> visits;
 
     public PatientResponseDto(Patient patient) {
         this.id = patient.getId();
@@ -32,5 +32,20 @@ public class PatientResponseDto {
         this.gender = patient.getGender().name();
         this.birthdate = patient.getBirthdate();
         this.phoneNumber = patient.getPhoneNumber();
+        this.visits = patient.getVisits().stream()
+                .map(VisitDto::new).collect(Collectors.toList());
+    }
+
+    @Getter
+    private static class VisitDto {
+        private String hospitalName;
+        private String schedule;
+        private String state;
+
+        public VisitDto(Visit visit) {
+            this.hospitalName = visit.getHospital().getName();
+            this.schedule = visit.getSchedule().toString();
+            this.state = visit.getState().name();
+        }
     }
 }

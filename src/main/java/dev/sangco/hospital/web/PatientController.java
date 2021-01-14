@@ -2,7 +2,6 @@ package dev.sangco.hospital.web;
 
 import dev.sangco.hospital.common.ErrorResponse;
 import dev.sangco.hospital.common.Result;
-import dev.sangco.hospital.domain.Patient;
 import dev.sangco.hospital.service.PatientService;
 import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
 import dev.sangco.hospital.web.dto.PatientResponseDto;
@@ -11,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/patients")
@@ -43,14 +44,16 @@ public class PatientController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> findById(@PathVariable Long id) {
-//
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<?> findAll() {
-//
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id) {
+        PatientResponseDto responseDto = patientService.findById(id);
+        return ResponseEntity.ok().body(new Result<PatientResponseDto>(responseDto));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        List<PatientResponseDto> responseDtoList = patientService.findAll();
+        return ResponseEntity.ok().body(new Result<List<PatientResponseDto>>(responseDtoList));
+    }
 
 }

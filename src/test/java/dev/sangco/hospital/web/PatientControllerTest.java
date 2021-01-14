@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.sangco.hospital.domain.Gender;
 import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
 import dev.sangco.hospital.web.dto.PatientUpdateRequestDto;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -52,9 +49,9 @@ class PatientControllerTest {
                     .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("data.id").exists())
                 .andExpect(header().exists(LOCATION))
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE));
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("data.id").exists());
     }
 
     @Test
@@ -79,6 +76,7 @@ class PatientControllerTest {
 
         mockMvc.perform(put("/patients/1")
                 .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -91,6 +89,7 @@ class PatientControllerTest {
 
         mockMvc.perform(put("/patients/1")
                 .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -115,6 +114,31 @@ class PatientControllerTest {
 //       // TODO 에러처리 코드 추가하고 테스트 수정
 //    }
 
+    @Test
+    @DisplayName("Patient 조회 테스트")
+    public void findPatientTest() throws Exception {
+        mockMvc.perform(get("/patients/1")
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("data.id").exists());
+    }
+
+    // TODO 실패 테스트
+
+    @Test
+    @DisplayName("Patient List 조회 테스트")
+    public void findPatientListTest() throws Exception {
+        mockMvc.perform(get("/patients")
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("data").isArray());
+    }
 
 
 }

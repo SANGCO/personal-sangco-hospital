@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,6 @@ public class Patient extends BaseTimeEntity {
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
-    @BatchSize(size = 1)
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Visit> visits = new ArrayList<>();
 
