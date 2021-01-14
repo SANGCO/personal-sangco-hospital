@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class HospitalRepositoryTest {
 
     @Autowired
-    private HospitalRepository hospitalRepository;
+    HospitalRepository hospitalRepository;
 
     @Test
     public void test() {

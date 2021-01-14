@@ -42,7 +42,6 @@ public class PatientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        // TODO 데이터 히스토리 데이블로 옮기고 지우기
         patientService.delete(id);
         return ResponseEntity.ok().build();
     }
