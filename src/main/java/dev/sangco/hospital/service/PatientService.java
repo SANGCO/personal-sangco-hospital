@@ -7,6 +7,7 @@ import dev.sangco.hospital.repository.HospitalRepository;
 import dev.sangco.hospital.repository.PatientRepository;
 import dev.sangco.hospital.repository.VisitRepository;
 import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
+import dev.sangco.hospital.web.dto.PatientUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +28,18 @@ public class PatientService {
         Patient patient = Patient.builder()
                 .hospital(hospital)
                 .name(requestDto.getName())
-                .number(requestDto.getNumber())
                 .gender(Gender.valueOf(requestDto.getGender()))
                 .birthdate(requestDto.getBirthdate())
                 .phoneNumber(requestDto.getPhoneNumber())
                 .build();
         return patientRepository.save(patient);
+    }
+
+    @Transactional
+    public void update(Long id, PatientUpdateRequestDto requestDto) {
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 사용자가 없습니다. ID = " + id));
+        patient.update(requestDto.getPhoneNumber());
     }
 
 }

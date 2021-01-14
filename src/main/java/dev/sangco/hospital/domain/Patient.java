@@ -5,10 +5,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Getter
@@ -32,24 +32,33 @@ public class Patient extends BaseTimeEntity {
     private String name;
 
     @Column(length = 13, unique = true, nullable = false)
-    private String number;
+    private String number = generateNumber();
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10)
     private String birthdate;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String phoneNumber;
 
     @Builder
-    public Patient(Hospital hospital, String name, String number, Gender gender, String birthdate, String phoneNumber) {
+    public Patient(Hospital hospital, String name, Gender gender, String birthdate, String phoneNumber) {
         this.hospital = hospital;
         this.name = name;
-        this.number = number;
         this.gender = gender;
         this.birthdate = birthdate;
+        this.phoneNumber = phoneNumber;
+    }
+
+    private String generateNumber() {
+        Random random = new Random();
+        random.setSeed(System.currentTimeMillis());
+        return String.valueOf(Math.abs(random.nextInt()));
+    }
+
+    public void update(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

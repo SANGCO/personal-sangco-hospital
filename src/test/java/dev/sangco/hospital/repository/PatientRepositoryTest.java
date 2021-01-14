@@ -34,7 +34,6 @@ class PatientRepositoryTest {
         Patient patient = Patient.builder()
                 .hospital(hospital)
                 .name("테스트환자")
-                .number("00000000")
                 .gender(Gender.MALE)
                 .birthdate("1988-01-01")
                 .phoneNumber("010-0000-0000").build();
