@@ -25,7 +25,7 @@ public class Patient extends BaseTimeEntity {
     private Hospital hospital;
 
     @BatchSize(size = 1)
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Visit> visits = new ArrayList<>();
 
     @Column(length = 45, nullable = false)

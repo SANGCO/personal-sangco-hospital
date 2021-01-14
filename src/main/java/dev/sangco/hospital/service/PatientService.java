@@ -42,4 +42,11 @@ public class PatientService {
         patient.update(requestDto.getPhoneNumber());
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 사용자가 없습니다. ID = " + id));
+        patientRepository.delete(patient);
+    }
+
 }
