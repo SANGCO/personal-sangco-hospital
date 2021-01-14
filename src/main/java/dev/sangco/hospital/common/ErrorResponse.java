@@ -16,7 +16,7 @@ public class ErrorResponse {
     private List<FieldError> FieldErrors;
 
     @Data
-    public static class FieldError {
+    private static class FieldError {
 
         private String field;
 

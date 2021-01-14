@@ -28,7 +28,7 @@ public class PatientService {
     @Transactional
     public PatientResponseDto save(PatientCreateRequestDto requestDto) {
         Hospital hospital = hospitalRepository.findByName(requestDto.getHospitalName())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 이름의 병원이 업슶니다. Hospital Name = " + requestDto.getHospitalName()));
         Patient patient = Patient.builder()
                 .hospital(hospital)
                 .name(requestDto.getName())
@@ -62,7 +62,6 @@ public class PatientService {
 
     public List<PatientResponseDto> findAll() {
         List<Patient> patients = patientRepository.findAll();
-        // TODO VISIT 제일 최근 한건 가지고 오는거 쿼리DSL에서
         return patients.stream().map(PatientResponseDto::new).collect(toList());
     }
 

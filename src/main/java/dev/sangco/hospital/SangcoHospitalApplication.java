@@ -41,12 +41,32 @@ public class SangcoHospitalApplication {
 						.phoneNumber("010-0000-0000").build();
 				patientRepository.save(patient);
 
-				Visit visit = Visit.builder()
-						.hospital(hospital)
-						.patient(patient)
-						.schedule(LocalDateTime.now())
-						.state(State.END).build();
-				visitRepository.save(visit);
+				IntStream.rangeClosed(1, 10).forEach(j -> {
+					Visit visit = Visit.builder()
+							.hospital(hospital)
+							.patient(patient)
+							.schedule(LocalDateTime.now())
+							.state(State.ONGOING).build();
+					visitRepository.save(visit);
+				});
+
+				IntStream.rangeClosed(1, 10).forEach(k -> {
+					Visit visit = Visit.builder()
+							.hospital(hospital)
+							.patient(patient)
+							.schedule(LocalDateTime.now())
+							.state(State.END).build();
+					visitRepository.save(visit);
+				});
+
+				IntStream.rangeClosed(1, 10).forEach(l -> {
+					Visit visit = Visit.builder()
+							.hospital(hospital)
+							.patient(patient)
+							.schedule(LocalDateTime.now())
+							.state(State.CANCEL).build();
+					visitRepository.save(visit);
+				});
 			});
 		});
 	}

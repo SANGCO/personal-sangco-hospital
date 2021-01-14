@@ -51,7 +51,7 @@ class PatientControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().exists(LOCATION))
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("data.id").exists());
+                .andExpect(jsonPath("data.id").value(11));
     }
 
     @Test
@@ -65,8 +65,8 @@ class PatientControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("data.code").exists())
-                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE));
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("fieldErrors").isArray());
     }
 
     @Test
@@ -83,7 +83,7 @@ class PatientControllerTest {
     }
 
     @Test
-    @DisplayName("Patient 생성 실패 테스트")
+    @DisplayName("Patient 수정 실패 테스트")
     public void updatePatientFailTest() throws Exception {
         PatientUpdateRequestDto requestDto = new PatientUpdateRequestDto("");
 
@@ -92,8 +92,9 @@ class PatientControllerTest {
                 .accept(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
-        // TODO 에러처리 코드 추가하고 테스트 추가하기
+                .andExpect(status().isBadRequest())
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("fieldErrors[0].field").value("phoneNumber"));
     }
 
     @Test
@@ -104,29 +105,40 @@ class PatientControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    @DisplayName("Patient 삭제 실패 테스트")
-//    public void deletePatientFailTest() throws Exception {
-//        mockMvc.perform(delete("/patients/1000"))
-//                .andExpect(result -> assertThrows(IllegalAccessException.class, () -> {
-//
-//                }));
-//       // TODO 에러처리 코드 추가하고 테스트 수정
-//    }
+    @Test
+    @DisplayName("Patient 삭제 실패 테스트")
+    public void deletePatientFailTest() throws Exception {
+        mockMvc.perform(delete("/patients/1000"))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("code").value("IllegalArgumentException"));
+    }
 
     @Test
     @DisplayName("Patient 조회 테스트")
     public void findPatientTest() throws Exception {
-        mockMvc.perform(get("/patients/1")
+        mockMvc.perform(get("/patients/10")
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("data.id").exists());
+                .andExpect(jsonPath("data.id").value(10))
+                .andExpect(jsonPath("data.visits").isArray());
     }
 
-    // TODO 실패 테스트
+    @Test
+    @DisplayName("Patient 조회 실패 테스트")
+    public void findPatientFailTest() throws Exception {
+        mockMvc.perform(get("/patients/1000")
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("code").value("IllegalArgumentException"));
+    }
 
     @Test
     @DisplayName("Patient List 조회 테스트")
@@ -139,6 +151,5 @@ class PatientControllerTest {
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("data").isArray());
     }
-
 
 }
