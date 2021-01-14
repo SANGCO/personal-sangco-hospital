@@ -26,9 +26,8 @@ public class PatientController {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new Result<ErrorResponse>(ErrorResponse.createErrorResponse(bindingResult)));
         }
-        Patient patient = patientService.save(requestDto);
-        PatientResponseDto responseDto = new PatientResponseDto(patient);
-        return ResponseEntity.created(URI.create(String.format("/patients/%s", patient.getId()))).body(new Result<PatientResponseDto>(responseDto));
+        PatientResponseDto responseDto = patientService.save(requestDto);
+        return ResponseEntity.created(URI.create(String.format("/patients/%s", responseDto.getId()))).body(new Result<PatientResponseDto>(responseDto));
     }
 
     @PutMapping("/{id}")
@@ -39,9 +38,19 @@ public class PatientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        // TODO 데이터를 지우지 말고 다른 테이블로 이동
+        // TODO 데이터 히스토리 데이블로 옮기고 지우기
         patientService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> findById(@PathVariable Long id) {
+//
+//    }
+//
+//    @GetMapping
+//    public ResponseEntity<?> findAll() {
+//
+//    }
 
 }

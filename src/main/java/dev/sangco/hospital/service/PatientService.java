@@ -7,6 +7,7 @@ import dev.sangco.hospital.repository.HospitalRepository;
 import dev.sangco.hospital.repository.PatientRepository;
 import dev.sangco.hospital.repository.VisitRepository;
 import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
+import dev.sangco.hospital.web.dto.PatientResponseDto;
 import dev.sangco.hospital.web.dto.PatientUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class PatientService {
     private final VisitRepository visitRepository;
 
     @Transactional
-    public Patient save(PatientCreateRequestDto requestDto) {
+    public PatientResponseDto save(PatientCreateRequestDto requestDto) {
         Hospital hospital = hospitalRepository.findByName(requestDto.getHospitalName())
                 .orElseThrow(IllegalArgumentException::new);
         Patient patient = Patient.builder()
@@ -32,7 +33,8 @@ public class PatientService {
                 .birthdate(requestDto.getBirthdate())
                 .phoneNumber(requestDto.getPhoneNumber())
                 .build();
-        return patientRepository.save(patient);
+        Patient savedPatient = patientRepository.save(patient);
+        return new PatientResponseDto(savedPatient);
     }
 
     @Transactional
