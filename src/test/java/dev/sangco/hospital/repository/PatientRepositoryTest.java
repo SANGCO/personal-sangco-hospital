@@ -3,6 +3,9 @@ package dev.sangco.hospital.repository;
 import dev.sangco.hospital.domain.Gender;
 import dev.sangco.hospital.domain.Hospital;
 import dev.sangco.hospital.domain.Patient;
+import dev.sangco.hospital.web.dto.PatientQuerydslDto;
+import dev.sangco.hospital.web.dto.PatientSearchCondition;
+import dev.sangco.hospital.web.dto.PatientSearchResponseDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,6 +50,35 @@ class PatientRepositoryTest {
         // Then
         assertTrue(findPatient.isPresent());
         assertEquals(findPatient.get(), patient);
+    }
+
+    @Test
+    public void searchNameTest() {
+        // Given
+        PatientSearchCondition patientSearchCondition = PatientSearchCondition.builder()
+                .name("테스트환자1")
+                .build();
+
+        // When
+        List<PatientQuerydslDto> search = patientRepository.search(patientSearchCondition);
+
+        // Then
+        assertEquals(1, search.size());
+    }
+
+    @Test
+    public void searchBirthdateTest() {
+        // Given
+        PatientSearchCondition patientSearchCondition = PatientSearchCondition.builder()
+                .birthdate("1988-01-01")
+                .build();
+
+        // When
+        List<PatientQuerydslDto> search = patientRepository.search(patientSearchCondition);
+
+        // Then
+//        assertEquals(1, search.size());
+        System.out.println(search.size());
     }
 
 }

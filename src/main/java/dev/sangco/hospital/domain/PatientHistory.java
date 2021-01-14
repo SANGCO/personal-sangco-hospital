@@ -57,6 +57,7 @@ public class PatientHistory extends BaseTimeEntity {
     }
 
     public static PatientHistory createPatientHistory(Patient patient) {
+        // TODO 쿼리 여러개 나가는거 잡자
         PatientHistory patientHistory = PatientHistory
             .builder()
                 .formerId(patient.getId())

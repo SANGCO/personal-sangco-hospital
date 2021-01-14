@@ -1,4 +1,4 @@
-package dev.sangco.hospital.common;
+package dev.sangco.hospital.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

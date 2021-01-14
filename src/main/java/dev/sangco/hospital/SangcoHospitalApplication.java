@@ -1,5 +1,6 @@
 package dev.sangco.hospital;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import dev.sangco.hospital.domain.*;
 import dev.sangco.hospital.repository.HospitalRepository;
 import dev.sangco.hospital.repository.PatientRepository;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
@@ -19,6 +21,11 @@ public class SangcoHospitalApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SangcoHospitalApplication.class, args);
+	}
+
+	@Bean
+	JPAQueryFactory jpaQueryFactory(EntityManager em) {
+		return new JPAQueryFactory(em);
 	}
 
 	@Bean

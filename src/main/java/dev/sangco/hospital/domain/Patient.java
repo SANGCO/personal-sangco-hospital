@@ -50,6 +50,7 @@ public class Patient extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    // TODO Redis 이용해서 년도 + 채번으로 수정하자.
     private String generateNumber() {
         Random random = new Random();
         random.setSeed(System.currentTimeMillis());

@@ -2,6 +2,7 @@ package dev.sangco.hospital.web.dto;
 
 import dev.sangco.hospital.domain.Patient;
 import dev.sangco.hospital.domain.Visit;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.List;
@@ -12,8 +13,6 @@ import java.util.stream.Collectors;
 public class PatientResponseDto {
     private Long id;
     private String hospitalName;
-    // TODO 여기서는 필요없겠네 지우자
-    private String recentVisit;
     private String name;
     private String number;
     private String gender;
@@ -31,9 +30,6 @@ public class PatientResponseDto {
         this.phoneNumber = patient.getPhoneNumber();
         this.visits = patient.getVisits().stream()
                 .map(VisitDto::new).collect(Collectors.toList());
-        if (!visits.isEmpty()) {
-            this.recentVisit = visits.get(0).getSchedule().toString();
-        }
     }
 
     @Getter

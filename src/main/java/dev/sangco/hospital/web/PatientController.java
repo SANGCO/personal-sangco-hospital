@@ -1,7 +1,7 @@
 package dev.sangco.hospital.web;
 
 import dev.sangco.hospital.common.ErrorResponse;
-import dev.sangco.hospital.common.Result;
+import dev.sangco.hospital.web.dto.Result;
 import dev.sangco.hospital.service.PatientService;
 import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
 import dev.sangco.hospital.web.dto.PatientResponseDto;
