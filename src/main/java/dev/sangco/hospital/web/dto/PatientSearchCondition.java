@@ -3,9 +3,11 @@ package dev.sangco.hospital.web.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class PatientSearchCondition {
     private String name;
     private String number;

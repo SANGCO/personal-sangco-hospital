@@ -1,12 +1,13 @@
 package dev.sangco.hospital.repository;
 
 import dev.sangco.hospital.web.dto.PatientQuerydslDto;
+import dev.sangco.hospital.web.dto.PatientResponseDto;
 import dev.sangco.hospital.web.dto.PatientSearchCondition;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface PatientRepositoryCustom {
 
-    List<PatientQuerydslDto> search(PatientSearchCondition searchCondition);
+    Page<PatientQuerydslDto> search(PatientSearchCondition searchCondition, Pageable pageable);
 
 }

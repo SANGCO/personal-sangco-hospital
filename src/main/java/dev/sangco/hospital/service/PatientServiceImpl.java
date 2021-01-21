@@ -7,9 +7,7 @@ import dev.sangco.hospital.domain.PatientHistory;
 import dev.sangco.hospital.repository.HospitalRepository;
 import dev.sangco.hospital.repository.PatientHistoryRepository;
 import dev.sangco.hospital.repository.PatientRepository;
-import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
-import dev.sangco.hospital.web.dto.PatientResponseDto;
-import dev.sangco.hospital.web.dto.PatientUpdateRequestDto;
+import dev.sangco.hospital.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,8 +68,10 @@ public class PatientServiceImpl implements PatientService {
     public Page<PatientResponseDto> findAll(Pageable pageable) {
         Page<Patient> patients = patientRepository.findAll(pageable);
         return patients.map(PatientResponseDto::new);
-//        List<Patient> patients = patientRepository.findAll();
-//        return patients.stream().map(PatientResponseDto::new).collect(toList());
     }
 
+    @Override
+    public Page<PatientQuerydslDto> search(PatientSearchCondition searchCondition, Pageable pageable) {
+        return patientRepository.search(searchCondition, pageable);
+    }
 }

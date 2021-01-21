@@ -149,7 +149,7 @@ class PatientControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("data").isArray());
+                .andExpect(jsonPath("content").isArray());
     }
 
 }

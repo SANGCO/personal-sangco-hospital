@@ -5,11 +5,10 @@ import dev.sangco.hospital.domain.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @NoArgsConstructor
 @Getter
 public class PatientQuerydslDto {
+
     private Long id;
     private String name;
     private String number;
@@ -19,13 +18,17 @@ public class PatientQuerydslDto {
     private String recentVisit;
 
     @QueryProjection
-    public PatientQuerydslDto(Long id, String name, String number, Gender gender, String birthdate, String phoneNumber, LocalDateTime recentVisit) {
+    public PatientQuerydslDto(Long id, String name, String number, Gender gender, String birthdate, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.number = number;
         this.gender = gender.name();
         this.birthdate = birthdate;
         this.phoneNumber = phoneNumber;
-        this.recentVisit = recentVisit.toString();
     }
+
+    public void setRecentVisit(String recentVisit) {
+        this.recentVisit = recentVisit;
+    }
+
 }

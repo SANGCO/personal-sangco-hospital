@@ -1,8 +1,6 @@
 package dev.sangco.hospital.service;
 
-import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
-import dev.sangco.hospital.web.dto.PatientResponseDto;
-import dev.sangco.hospital.web.dto.PatientUpdateRequestDto;
+import dev.sangco.hospital.web.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,5 +15,7 @@ public interface PatientService {
     PatientResponseDto findById(Long id);
 
     Page<PatientResponseDto> findAll(Pageable pageable);
+
+    Page<PatientQuerydslDto> search(PatientSearchCondition searchCondition, Pageable pageable);
 
 }
