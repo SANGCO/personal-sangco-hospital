@@ -11,6 +11,8 @@ import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
 import dev.sangco.hospital.web.dto.PatientResponseDto;
 import dev.sangco.hospital.web.dto.PatientUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -63,9 +65,11 @@ public class PatientService {
         return new PatientResponseDto(patient);
     }
 
-    public List<PatientResponseDto> findAll() {
-        List<Patient> patients = patientRepository.findAll();
-        return patients.stream().map(PatientResponseDto::new).collect(toList());
+    public Page<PatientResponseDto> findAll(Pageable pageable) {
+        Page<Patient> patients = patientRepository.findAll(pageable);
+        return patients.map(PatientResponseDto::new);
+//        List<Patient> patients = patientRepository.findAll();
+//        return patients.stream().map(PatientResponseDto::new).collect(toList());
     }
 
 }

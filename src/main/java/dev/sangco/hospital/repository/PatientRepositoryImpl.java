@@ -1,25 +1,15 @@
 package dev.sangco.hospital.repository;
 
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import dev.sangco.hospital.domain.Patient;
-import dev.sangco.hospital.domain.Visit;
 import dev.sangco.hospital.web.dto.PatientQuerydslDto;
 import dev.sangco.hospital.web.dto.PatientSearchCondition;
-import dev.sangco.hospital.web.dto.PatientSearchResponseDto;
 import dev.sangco.hospital.web.dto.QPatientQuerydslDto;
 import lombok.AllArgsConstructor;
-
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import static com.querydsl.core.group.GroupBy.groupBy;
-import static com.querydsl.core.group.GroupBy.list;
 import static dev.sangco.hospital.domain.QPatient.patient;
 import static dev.sangco.hospital.domain.QVisit.visit;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -41,8 +31,9 @@ public class PatientRepositoryImpl implements PatientRepositoryCustom {
                         patient.birthdate,
                         patient.phoneNumber,
                         ExpressionUtils.as(
-                                JPAExpressions.select(visit.schedule.max()).from(visit).leftJoin(patient).groupBy(patient.id), "recentVisit"
+                                JPAExpressions.select(visit.schedule.max()).from(visit).leftJoin(visit.patient, patient).groupBy(visit.patient.id), "recentVisit"
                         )))
+                // TODO from 절에 서브쿼리 쓸 일이 없을라나?
                 .from(patient)
                 .where(nameEq(searchCondition.getName()),
                         numberEq(searchCondition.getNumber()),

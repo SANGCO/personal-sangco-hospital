@@ -7,6 +7,8 @@ import dev.sangco.hospital.web.dto.PatientCreateRequestDto;
 import dev.sangco.hospital.web.dto.PatientResponseDto;
 import dev.sangco.hospital.web.dto.PatientUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -53,10 +55,10 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<Result<List<PatientResponseDto>>> findAll() {
+    public ResponseEntity<Result<Page<PatientResponseDto>>> findAll(Pageable pageable) {
         // TODO 최근 visit만 딱 가지고 올 수 있도록 queryDSL 써서 수정하자.
-        List<PatientResponseDto> responseDtoList = patientService.findAll();
-        return ResponseEntity.ok().body(new Result<List<PatientResponseDto>>(responseDtoList));
+        Page<PatientResponseDto> responseDtoList = patientService.findAll(pageable);
+        return ResponseEntity.ok().body(new Result<Page<PatientResponseDto>>(responseDtoList));
     }
 
 }
