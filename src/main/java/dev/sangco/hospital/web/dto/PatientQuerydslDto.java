@@ -2,7 +2,6 @@ package dev.sangco.hospital.web.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import dev.sangco.hospital.domain.Gender;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

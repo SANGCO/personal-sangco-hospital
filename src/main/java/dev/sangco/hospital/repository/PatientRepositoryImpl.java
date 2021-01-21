@@ -8,6 +8,7 @@ import dev.sangco.hospital.web.dto.PatientQuerydslDto;
 import dev.sangco.hospital.web.dto.PatientSearchCondition;
 import dev.sangco.hospital.web.dto.QPatientQuerydslDto;
 import lombok.AllArgsConstructor;
+
 import java.util.List;
 
 import static dev.sangco.hospital.domain.QPatient.patient;
