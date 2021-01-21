@@ -1,13 +1,9 @@
 package dev.sangco.hospital.repository;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import dev.sangco.hospital.domain.Patient;
 import dev.sangco.hospital.web.dto.PatientQuerydslDto;
-import dev.sangco.hospital.web.dto.PatientResponseDto;
 import dev.sangco.hospital.web.dto.PatientSearchCondition;
 import dev.sangco.hospital.web.dto.QPatientQuerydslDto;
 import lombok.AllArgsConstructor;
@@ -17,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static dev.sangco.hospital.domain.QPatient.patient;
 import static dev.sangco.hospital.domain.QVisit.visit;
@@ -45,6 +42,8 @@ public class PatientRepositoryImpl implements PatientRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
+        List<Long> ids = dtoList.stream().map(PatientQuerydslDto::getId).collect(Collectors.toList());
+
         List<Tuple> visits = queryFactory
                 .select(visit.patient.id, visit.schedule.max())
                 .from(visit)
@@ -52,14 +51,23 @@ public class PatientRepositoryImpl implements PatientRepositoryCustom {
                 .where(nameEq(searchCondition.getName()),
                         numberEq(searchCondition.getNumber()),
                         birthdateEq(searchCondition.getBirthdate()))
-                .groupBy(patient.id)
+                .groupBy(visit.patient.id)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
+//        List<Tuple> visits = queryFactory
+//                .select(visit.patient.id, visit.schedule.max())
+//                .from(visit)
+//                .where(visit.patient.id.in(ids))
+//                .groupBy(visit.patient.id)
+//                .fetch();
+
         for (int i = 0; i < dtoList.size(); i++) {
             PatientQuerydslDto patientQuerydslDto = dtoList.get(i);
-            patientQuerydslDto.setRecentVisit(Objects.requireNonNull(visits.get(i).get(visit.schedule.max())).toString());
+            if (visits.size() - 1 >= i) {
+                patientQuerydslDto.setRecentVisit(Objects.requireNonNull(visits.get(i).get(visit.schedule.max())).toString());
+            }
         }
 
         long total = queryFactory

@@ -143,7 +143,7 @@ class PatientControllerTest {
     @Test
     @DisplayName("Patient List 조회 테스트")
     public void findPatientListTest() throws Exception {
-        mockMvc.perform(get("/patients")
+        mockMvc.perform(get("/patients?page=0&size=10")
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON))
                 .andDo(print())
