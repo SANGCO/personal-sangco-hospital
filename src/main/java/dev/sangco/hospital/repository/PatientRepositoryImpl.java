@@ -42,7 +42,6 @@ public class PatientRepositoryImpl implements PatientRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        List<Long> ids = dtoList.stream().map(PatientQuerydslDto::getId).collect(Collectors.toList());
 
         List<Tuple> visits = queryFactory
                 .select(visit.patient.id, visit.schedule.max())
@@ -56,6 +55,7 @@ public class PatientRepositoryImpl implements PatientRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
+//        List<Long> ids = dtoList.stream().map(PatientQuerydslDto::getId).collect(Collectors.toList());
 //        List<Tuple> visits = queryFactory
 //                .select(visit.patient.id, visit.schedule.max())
 //                .from(visit)

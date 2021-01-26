@@ -1,6 +1,7 @@
 package dev.sangco.hospital;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import dev.sangco.hospital.common.NumberGenerator;
 import dev.sangco.hospital.domain.*;
 import dev.sangco.hospital.repository.HospitalRepository;
 import dev.sangco.hospital.repository.PatientRepository;
@@ -31,7 +32,8 @@ public class SangcoHospitalApplication {
 	@Bean
 	public CommandLineRunner runner(HospitalRepository hospitalRepository,
 									PatientRepository patientRepository,
-									VisitRepository visitRepository) {
+									VisitRepository visitRepository,
+									NumberGenerator numberGenerator) {
 		return (args -> {
 			Hospital hospital = Hospital.builder()
 					.name("테스트 병원")
@@ -43,6 +45,7 @@ public class SangcoHospitalApplication {
 				Patient patient = Patient.builder()
 						.hospital(savedHospital)
 						.name("테스트환자" + i)
+						.number(numberGenerator.getPatientNumber())
 						.gender(Gender.MALE)
 						.birthdate("1988-01-01")
 						.phoneNumber("010-0000-0000").build();

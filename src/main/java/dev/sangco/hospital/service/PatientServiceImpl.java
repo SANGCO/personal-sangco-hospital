@@ -1,5 +1,6 @@
 package dev.sangco.hospital.service;
 
+import dev.sangco.hospital.common.NumberGenerator;
 import dev.sangco.hospital.domain.Gender;
 import dev.sangco.hospital.domain.Hospital;
 import dev.sangco.hospital.domain.Patient;
@@ -22,6 +23,7 @@ public class PatientServiceImpl implements PatientService {
     private final HospitalRepository hospitalRepository;
     private final PatientRepository patientRepository;
     private final PatientHistoryRepository patientHistoryRepository;
+    private final NumberGenerator numberGenerator;
 
     @Transactional
     @Override
@@ -31,10 +33,12 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = Patient.builder()
                 .hospital(hospital)
                 .name(requestDto.getName())
+                .number(numberGenerator.getPatientNumber())
                 .gender(Gender.valueOf(requestDto.getGender()))
                 .birthdate(requestDto.getBirthdate())
                 .phoneNumber(requestDto.getPhoneNumber())
                 .build();
+
         Patient savedPatient = patientRepository.save(patient);
         return new PatientResponseDto(savedPatient);
     }

@@ -27,8 +27,8 @@ public class PatientResponseDto {
         this.gender = patient.getGender().name();
         this.birthdate = patient.getBirthdate();
         this.phoneNumber = patient.getPhoneNumber();
-        this.visits = patient.getVisits().stream()
-                .map(VisitDto::new).collect(Collectors.toList());
+        this.visits = patient.getVisits().stream().map(VisitDto::new)
+                .collect(Collectors.toList());
     }
 
     @Getter
